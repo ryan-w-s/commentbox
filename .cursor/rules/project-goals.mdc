@@ -1,0 +1,23 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# CommentBox: easy comment thread and replies
+
+This software is a simple service for posting comments.
+Overall features include:
+- no login, comments are anonymous
+- markdown supported in comments
+- images can be uploaded
+- top level comments can be replied to
+- feed is reverse chronological, with replies bumping comment chain to top
+
+General architecture and components:
+- SvelteKit app with TypeScript
+- SQLite for database
+- Drizzle for ORM
+- Prettier and ESLint with semicolons disabled
+- bun for package manager/runtime
+- Tailwind for CSS
+- Vite for bundling
