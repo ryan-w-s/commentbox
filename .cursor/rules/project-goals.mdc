@@ -13,7 +13,7 @@ Overall features include:
 - top level comments can be replied to
 - feed is reverse chronological, with replies bumping comment chain to top
 
-General architecture and components:
+Dependencies and Tech Stack:
 - SvelteKit app with TypeScript
 - SQLite for database
 - Drizzle for ORM
@@ -21,3 +21,8 @@ General architecture and components:
 - bun for package manager/runtime
 - Tailwind for CSS
 - Vite for bundling
+
+General Architecture:
+- `/` (root): Feed of latest comments with most recent reply. Paginated.
+- `/[id]`: Comment ID, displaying all replies
+Each of them will have a text box to make a new item (either new comment or reply).
