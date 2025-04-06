@@ -6,23 +6,37 @@ export const actions = {
 	default: async (event: RequestEvent) => {
 		const data = await event.request.formData()
 		const content = data.get('content') as string | null
+		const parentIdRaw = data.get('parentId') as string | null
+
+		let parentId: number | undefined = undefined
+		if (parentIdRaw) {
+			parentId = parseInt(parentIdRaw, 10)
+			if (isNaN(parentId)) {
+				return fail(400, { content, parentIdRaw, error: 'Invalid parent ID format' })
+			}
+		}
 
 		if (!content) {
-			return fail(400, { content, missing: true })
+			return fail(400, { content, parentIdRaw, missing: true })
 		}
 
 		try {
-			await createComment({ content })
-			// Instead of returning success, redirect to homepage
-			throw redirect(303, '/') // Use 303 See Other for POST redirects
-		} catch (error: unknown) {
-			// Use SvelteKit's isRedirect type guard
-			if (isRedirect(error)) {
-				throw error // Re-throw redirects correctly
+			// Pass parentId (will be undefined for top-level comments)
+			await createComment({ content, parentId })
+
+			// Redirect based on whether it was a reply or not
+			if (parentId) {
+				throw redirect(303, `/${parentId}`) // Redirect to the parent comment page
+			} else {
+				throw redirect(303, '/') // Redirect to homepage for top-level comments
 			}
-			// Log actual errors
+		} catch (error: unknown) {
+			if (isRedirect(error)) {
+				throw error
+			}
 			console.error('Failed to create comment:', error)
-			return fail(500, { content, error: 'Failed to save comment' })
+			// Include parentIdRaw in fail data if needed for form repopulation
+			return fail(500, { content, parentIdRaw, error: 'Failed to save comment' })
 		}
 	}
 } satisfies Actions

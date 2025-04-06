@@ -28,10 +28,13 @@ export const load: PageServerLoad = async ({ params }) => {
 		}
 	} catch (err: unknown) {
 		// Handle potential database errors or the 404/400 errors thrown above
-		if (err instanceof Error && err.message.includes('404') || err instanceof Error && err.message.includes('400')) {
+		if (
+			(err instanceof Error && err.message.includes('404')) ||
+			(err instanceof Error && err.message.includes('400'))
+		) {
 			throw err // Re-throw SvelteKit errors
 		}
 		console.error(`Failed to load comment ${id} and replies:`, err)
 		throw error(500, 'Failed to load comment data')
 	}
-} 
+}
