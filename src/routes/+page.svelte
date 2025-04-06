@@ -19,7 +19,7 @@
 			<article class="rounded-lg border p-4 shadow-sm">
 				<p class="whitespace-pre-wrap text-gray-700">{comment.content}</p>
 				<footer class="mt-2 text-sm text-gray-500">
-					Posted on: {new Date(comment.createdAt).toLocaleString()}
+					Posted on: {comment.createdAt.toLocaleString()}
 					<!-- Link to the individual comment page (we'll create this later) -->
 					<a href="/{comment.id}" class="ml-4 text-blue-500 hover:underline">View Replies</a>
 				</footer>

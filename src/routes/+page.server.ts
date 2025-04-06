@@ -6,6 +6,7 @@ export const load: PageServerLoad = async () => {
 		const comments = await getTopLevelComments()
 		// Add sorting if needed, e.g., reverse chronological
 		comments.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+
 		return { comments }
 	} catch (error) {
 		console.error('Failed to load top-level comments:', error)
