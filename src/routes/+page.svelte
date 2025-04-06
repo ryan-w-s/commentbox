@@ -17,6 +17,13 @@
 	<div class="space-y-4">
 		{#each data.comments as comment (comment.id)}
 			<article class="rounded-lg border p-4 shadow-sm">
+				{#if comment.imageUrl}
+					<img 
+						src={comment.imageUrl} 
+						alt="Uploaded content for comment {comment.id}" 
+						class="mb-3 max-h-60 w-auto rounded border" 
+					/>
+				{/if}
 				<p class="whitespace-pre-wrap text-gray-700">{comment.content}</p>
 				<footer class="mt-2 text-sm text-gray-500">
 					Posted on: {comment.createdAt.toLocaleString()}
