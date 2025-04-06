@@ -37,10 +37,7 @@ export async function getTopLevelComments(limit: number, offset: number): Promis
  * Get the total count of top-level comments.
  */
 export async function getTopLevelCommentsCount(): Promise<number> {
-	const result = await db
-		.select({ count: count() })
-		.from(comments)
-		.where(isNull(comments.parentId))
+	const result = await db.select({ count: count() }).from(comments).where(isNull(comments.parentId))
 
 	return result[0]?.count ?? 0
 }

@@ -18,36 +18,36 @@
 </div>
 
 <!-- Display the main comment -->
-<article class="mb-8 border p-4 rounded-lg bg-gray-50 shadow-sm">
+<article class="mb-8 rounded-lg border bg-gray-50 p-4 shadow-sm">
 	{#if comment.imageUrl}
-		<img 
-			src={comment.imageUrl} 
-			alt="Uploaded content for comment {comment.id}" 
-			class="mb-3 max-h-80 w-auto rounded border" 
+		<img
+			src={comment.imageUrl}
+			alt="Uploaded content for comment {comment.id}"
+			class="mb-3 max-h-80 w-auto rounded border"
 		/>
 	{/if}
-	<p class="text-gray-800 whitespace-pre-wrap">{comment.content}</p>
-	<footer class="text-sm text-gray-500 mt-2">
+	<p class="whitespace-pre-wrap text-gray-800">{comment.content}</p>
+	<footer class="mt-2 text-sm text-gray-500">
 		Posted on: {comment.createdAt.toLocaleString()} (ID: {comment.id})
 	</footer>
 </article>
 
 <!-- Display the replies -->
-<h2 class="text-xl font-semibold mb-4">Replies ({replies.length})</h2>
+<h2 class="mb-4 text-xl font-semibold">Replies ({replies.length})</h2>
 
 {#if replies.length > 0}
-	<div class="space-y-4 ml-4 md:ml-8 border-l-2 border-gray-200 pl-4">
+	<div class="ml-4 space-y-4 border-l-2 border-gray-200 pl-4 md:ml-8">
 		{#each replies as reply (reply.id)}
-			<article class="border p-3 rounded-lg shadow-sm bg-white">
+			<article class="rounded-lg border bg-white p-3 shadow-sm">
 				{#if reply.imageUrl}
-					<img 
-						src={reply.imageUrl} 
-						alt="Uploaded content for reply {reply.id}" 
-						class="mb-2 max-h-60 w-auto rounded border" 
+					<img
+						src={reply.imageUrl}
+						alt="Uploaded content for reply {reply.id}"
+						class="mb-2 max-h-60 w-auto rounded border"
 					/>
 				{/if}
-				<p class="text-gray-700 whitespace-pre-wrap">{reply.content}</p>
-				<footer class="text-sm text-gray-500 mt-2">
+				<p class="whitespace-pre-wrap text-gray-700">{reply.content}</p>
+				<footer class="mt-2 text-sm text-gray-500">
 					Posted on: {reply.createdAt.toLocaleString()}
 				</footer>
 			</article>

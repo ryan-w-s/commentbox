@@ -24,6 +24,12 @@ export const load: PageServerLoad = async ({ url }) => {
 		}
 	} catch (error) {
 		console.error('Failed to load top-level comments:', error)
-		return { comments: [], currentPage: 1, totalPages: 0, totalComments: 0, error: 'Could not load comments' }
+		return {
+			comments: [],
+			currentPage: 1,
+			totalPages: 0,
+			totalComments: 0,
+			error: 'Could not load comments'
+		}
 	}
 }
