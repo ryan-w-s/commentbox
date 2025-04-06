@@ -27,7 +27,11 @@
 	<p class="mb-4 text-sm text-gray-600">Replying to comment ID: {parentId}</p>
 {/if}
 
-<form method="POST" class="mx-auto flex max-w-md flex-col gap-4 rounded-lg border p-4">
+<form
+	method="POST"
+	enctype="multipart/form-data"
+	class="mx-auto flex max-w-md flex-col gap-4 rounded-lg border p-4"
+>
 	{#if isReply && parentId}
 		<!-- Hidden input to send parentId -->
 		<input type="hidden" name="parentId" value={parentId} />
@@ -43,6 +47,18 @@
 			</p>
 		{/if}
 	</label>
+
+	<!-- Image Upload Input -->
+	<label class="flex flex-col">
+		<span class="mb-1 font-medium">Attach Image (Optional):</span>
+		<input
+			type="file"
+			name="image"
+			accept="image/*"
+			class="rounded border p-2 file:mr-4 file:rounded file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100"
+		/>
+	</label>
+	<!-- End Image Upload Input -->
 
 	<button type="submit" class="rounded bg-blue-500 p-2 text-white hover:bg-blue-600">
 		{isReply ? 'Post Reply' : 'Post Comment'}

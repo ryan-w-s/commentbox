@@ -4,7 +4,7 @@ import { eq, isNull } from 'drizzle-orm'
 
 export type Comment = typeof comments.$inferSelect
 export type NewComment = typeof comments.$inferInsert
-export type CreateCommentInput = Pick<NewComment, 'content' | 'parentId'>
+export type CreateCommentInput = Pick<NewComment, 'content' | 'parentId' | 'imageUrl'>
 
 /**
  * Create a new comment (top-level or reply)
@@ -12,7 +12,8 @@ export type CreateCommentInput = Pick<NewComment, 'content' | 'parentId'>
 export async function createComment(input: CreateCommentInput): Promise<Comment> {
 	const valuesToInsert: NewComment = {
 		content: input.content,
-		parentId: input.parentId
+		parentId: input.parentId,
+		imageUrl: input.imageUrl
 	}
 	const [comment] = await db.insert(comments).values(valuesToInsert).returning()
 	return comment
