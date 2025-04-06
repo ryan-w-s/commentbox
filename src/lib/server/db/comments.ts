@@ -1,6 +1,6 @@
 import { db } from './index'
 import { comments } from './schema'
-import { eq, isNull } from 'drizzle-orm'
+import { eq, isNull, desc, count } from 'drizzle-orm'
 
 export type Comment = typeof comments.$inferSelect
 export type NewComment = typeof comments.$inferInsert
@@ -20,10 +20,29 @@ export async function createComment(input: CreateCommentInput): Promise<Comment>
 }
 
 /**
- * Get all top-level comments (comments without a parent)
+ * Get paginated top-level comments (comments without a parent),
+ * ordered by creation date descending.
  */
-export async function getTopLevelComments(): Promise<Comment[]> {
-	return db.select().from(comments).where(isNull(comments.parentId))
+export async function getTopLevelComments(limit: number, offset: number): Promise<Comment[]> {
+	return db
+		.select()
+		.from(comments)
+		.where(isNull(comments.parentId))
+		.orderBy(desc(comments.createdAt))
+		.limit(limit)
+		.offset(offset)
+}
+
+/**
+ * Get the total count of top-level comments.
+ */
+export async function getTopLevelCommentsCount(): Promise<number> {
+	const result = await db
+		.select({ count: count() })
+		.from(comments)
+		.where(isNull(comments.parentId))
+
+	return result[0]?.count ?? 0
 }
 
 /**

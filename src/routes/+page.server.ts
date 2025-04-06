@@ -1,16 +1,29 @@
-import { getTopLevelComments } from '$lib/server/db/comments'
+import { getTopLevelComments, getTopLevelCommentsCount } from '$lib/server/db/comments'
 import type { PageServerLoad } from './$types'
 
-export const load: PageServerLoad = async () => {
-	try {
-		const comments = await getTopLevelComments()
-		// Add sorting if needed, e.g., reverse chronological
-		comments.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+const PAGE_SIZE = 10
 
-		return { comments }
+export const load: PageServerLoad = async ({ url }) => {
+	const page = parseInt(url.searchParams.get('page') ?? '1', 10)
+	const limit = PAGE_SIZE
+	const offset = (page - 1) * limit
+
+	try {
+		const [totalCommentsCount, comments] = await Promise.all([
+			getTopLevelCommentsCount(),
+			getTopLevelComments(limit, offset)
+		])
+
+		const totalPages = Math.ceil(totalCommentsCount / PAGE_SIZE)
+
+		return {
+			comments,
+			currentPage: page,
+			totalPages: totalPages,
+			totalComments: totalCommentsCount
+		}
 	} catch (error) {
 		console.error('Failed to load top-level comments:', error)
-		// Return an empty array or an error state if loading fails
-		return { comments: [], error: 'Could not load comments' }
+		return { comments: [], currentPage: 1, totalPages: 0, totalComments: 0, error: 'Could not load comments' }
 	}
 }
