@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { PageData } from './$types'
 
-	// Data loaded from the server load function
-	export let data: PageData
+	// Declare props using $props() and type the destructured variable
+	const { data }: { data: PageData } = $props()
 </script>
 
 <svelte:head>

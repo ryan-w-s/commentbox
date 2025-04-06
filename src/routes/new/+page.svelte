@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { ActionData } from './$types'
 
-	// This holds the data returned from the server action (success or error)
-	export let form: ActionData
+	// Declare props using $props() and type the destructured variable
+	const { form }: { form: ActionData } = $props()
 
-	// Local variable to hold the textarea content
-	let contentValue = form?.content ?? ''
+	// Local reactive state using $state rune
+	let contentValue = $state(form?.content ?? '')
 </script>
 
 <h1>Post a New Comment</h1>
